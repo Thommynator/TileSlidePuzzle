@@ -4,40 +4,43 @@ using UnityEngine;
 
 public class CommandHandlerScript : MonoBehaviour
 {
-
     public List<GameObject> commands;
-
-    private bool isRecording;
-    private bool isShuffling;
+    private State state;
     public int commandLimit;
     public GameObject upCommand;
     public GameObject downCommand;
     public GameObject leftCommand;
     public GameObject rightCommand;
+    public GameObject recordText;
+    public GameObject replayText;
+
+    public AudioClip tileMoveSuccess;
+    public AudioClip tileMoveFail;
+
 
     void Start()
     {
         commands = new List<GameObject>();
-        StartCoroutine(Shuffle(50));
-        isRecording = false;
+        StartCoroutine(Shuffle(10));
     }
 
     void Update()
     {
-        if (isRecording)
+        if (state == State.RECORD)
         {
             ListenForInput();
         }
 
         if (commands.Count >= commandLimit)
         {
-            isRecording = false;
             Replay();
         }
-        else if (commands.Count == 0 && !isShuffling)
+        else if (commands.Count == 0 && state != State.SHUFFLE)
         {
-            isRecording = true;
+            state = State.RECORD;
         }
+
+        VisualizeState();
     }
 
     private void ListenForInput()
@@ -60,6 +63,25 @@ public class CommandHandlerScript : MonoBehaviour
         }
     }
 
+    private void VisualizeState()
+    {
+        switch (state)
+        {
+            case State.RECORD:
+                recordText.SetActive(true);
+                replayText.SetActive(false);
+                break;
+            case State.REPLAY:
+                replayText.SetActive(true);
+                recordText.SetActive(false);
+                break;
+            default:
+                replayText.SetActive(false);
+                recordText.SetActive(false);
+                break;
+        }
+    }
+
     private void AddCommandToQueue(GameObject command)
     {
         // add to queue
@@ -69,13 +91,13 @@ public class CommandHandlerScript : MonoBehaviour
         command.transform.SetParent(GameObject.Find("CommandQueueBox").transform);
         command.transform.localScale = Vector3.zero;
         LeanTween.scale(command, Vector3.one, 0.25f);
-        command.transform.localPosition = new Vector3(100, -125 + 125 * (commands.Count - 1), 0);
+        command.transform.localPosition = new Vector3(100, -140 + 105 * (commands.Count - 1), 0);
 
     }
 
     public IEnumerator Shuffle(int n)
     {
-        isShuffling = true;
+        state = State.SHUFFLE;
         Command previousCommand = CreateRandomMoveCommand();
         for (int i = 0; i < n; i++)
         {
@@ -99,7 +121,7 @@ public class CommandHandlerScript : MonoBehaviour
             }
             yield return new WaitForSeconds(waitTime);
         }
-        isShuffling = false;
+        state = State.RECORD;
     }
 
     private Command CreateRandomMoveCommand()
@@ -120,6 +142,7 @@ public class CommandHandlerScript : MonoBehaviour
 
     private void Replay()
     {
+        state = State.REPLAY;
         StartCoroutine(PlayCommands());
     }
 
@@ -128,10 +151,25 @@ public class CommandHandlerScript : MonoBehaviour
         while (commands.Count > 0)
         {
             GameObject nextCommand = commands[0];
-            nextCommand.GetComponent<Command>().Execute();
+            if (nextCommand.GetComponent<Command>().Execute())
+            {
+                GetComponent<AudioSource>().clip = tileMoveSuccess;
+            }
+            else
+            {
+                GetComponent<AudioSource>().clip = tileMoveFail;
+            }
+
+            GetComponent<AudioSource>().Play();
             LeanTween.scale(nextCommand, Vector3.zero, 0.25f).setDestroyOnComplete(true);
             commands.RemoveAt(0);
             yield return new WaitForSeconds(0.75f);
         }
+        state = State.RECORD;
+    }
+
+    private enum State
+    {
+        SHUFFLE, RECORD, REPLAY
     }
 }

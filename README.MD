@@ -3,10 +3,12 @@
 Your goal is it to slide all the tiles to their correct position.
 The tricky part is, that you need to plan three of your moves in advance, because they are stored in a queue before they are executed.
 
-## 1st Record Your Moves
+[**Try it out**](https://github.com/Thommynator/TileSlidePuzzle/deployments/activity_log?environment=github-pages) 🎮🕹
+
+## 1st: Record Your Moves
 ![](doc/img/demo1.png)
 
-## 2nd Replay Your Moves
+## 2nd: Replay Your Moves
 ![](doc/img/demo2.png)
 
 ## Goal

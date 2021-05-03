@@ -21,7 +21,7 @@ public class CommandHandlerScript : MonoBehaviour
     void Start()
     {
         commands = new List<GameObject>();
-        StartCoroutine(Shuffle(10));
+        StartCoroutine(Shuffle(30));
     }
 
     void Update()

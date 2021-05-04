@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class TextTweenEffect : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public bool ignoreTimeScale;
+
     void Start()
     {
-        LeanTween.scale(this.gameObject, transform.localScale * 0.98f, 0.5f).setLoopPingPong();
+        LeanTween.scale(this.gameObject, transform.localScale * 0.98f, 0.5f).setLoopPingPong().setIgnoreTimeScale(ignoreTimeScale);
     }
 
 }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using static CommandHandlerScript;
 
 public class RasterScript : MonoBehaviour
 {
@@ -45,11 +46,11 @@ public class RasterScript : MonoBehaviour
 
     void Update()
     {
-        // if (CheckWinCondition())
-        // {
-        //     Time.timeScale = 0.0f;
-        //     winPanel.SetActive(true);
-        // }
+        if (CheckWinCondition())
+        {
+            Time.timeScale = 0.0f;
+            winPanel.SetActive(true);
+        }
     }
 
     public bool MoveDown()
@@ -144,8 +145,9 @@ public class RasterScript : MonoBehaviour
             }
         }));
 
-        Debug.Log("Win Status: " + hasWon);
-        return hasWon;
+        State currentState = GameObject.Find("CommandHandler").GetComponent<CommandHandlerScript>().GetState();
+
+        return hasWon && (currentState == State.RECORD || currentState == State.REPLAY);
     }
 
 }

@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class CommandHandlerScript : MonoBehaviour
 {
-    public List<GameObject> commands;
-    private State state;
+    public int shuffleAmount;
     public int commandLimit;
     public GameObject upCommand;
     public GameObject downCommand;
@@ -13,15 +12,17 @@ public class CommandHandlerScript : MonoBehaviour
     public GameObject rightCommand;
     public GameObject recordText;
     public GameObject replayText;
+    public AudioClip tileMoveSuccessSound;
+    public AudioClip tileMoveFailSound;
+    public AudioClip commandAddSound;
 
-    public AudioClip tileMoveSuccess;
-    public AudioClip tileMoveFail;
-
+    private List<GameObject> commands;
+    private State state;
 
     void Start()
     {
         commands = new List<GameObject>();
-        StartCoroutine(Shuffle(30));
+        StartCoroutine(Shuffle(shuffleAmount));
     }
 
     void Update()
@@ -30,7 +31,6 @@ public class CommandHandlerScript : MonoBehaviour
         {
             ListenForInput();
         }
-
         if (commands.Count >= commandLimit)
         {
             Replay();
@@ -86,6 +86,8 @@ public class CommandHandlerScript : MonoBehaviour
     {
         // add to queue
         commands.Add(command);
+        GetComponent<AudioSource>().clip = commandAddSound;
+        GetComponent<AudioSource>().Play();
 
         // visualize
         command.transform.SetParent(GameObject.Find("CommandQueueBox").transform);
@@ -97,6 +99,7 @@ public class CommandHandlerScript : MonoBehaviour
 
     public IEnumerator Shuffle(int n)
     {
+        Time.timeScale = 2.0f;
         state = State.SHUFFLE;
         Command previousCommand = CreateRandomMoveCommand();
         for (int i = 0; i < n; i++)
@@ -122,6 +125,8 @@ public class CommandHandlerScript : MonoBehaviour
             yield return new WaitForSeconds(waitTime);
         }
         state = State.RECORD;
+        Time.timeScale = 1.0f;
+
     }
 
     private Command CreateRandomMoveCommand()
@@ -130,13 +135,13 @@ public class CommandHandlerScript : MonoBehaviour
         switch (randomNumber)
         {
             case 0:
-                return new MoveUpCommand();
+                return Instantiate<GameObject>(upCommand).GetComponent<Command>();
             case 1:
-                return new MoveRightCommand();
+                return Instantiate<GameObject>(rightCommand).GetComponent<Command>();
             case 2:
-                return new MoveDownCommand();
+                return Instantiate<GameObject>(downCommand).GetComponent<Command>();
             default:
-                return new MoveLeftCommand();
+                return Instantiate<GameObject>(leftCommand).GetComponent<Command>();
         }
     }
 
@@ -148,16 +153,16 @@ public class CommandHandlerScript : MonoBehaviour
 
     private IEnumerator PlayCommands()
     {
-        while (commands.Count > 0)
+        while (commands.Count > 0 && state == State.REPLAY)
         {
             GameObject nextCommand = commands[0];
             if (nextCommand.GetComponent<Command>().Execute())
             {
-                GetComponent<AudioSource>().clip = tileMoveSuccess;
+                GetComponent<AudioSource>().clip = tileMoveSuccessSound;
             }
             else
             {
-                GetComponent<AudioSource>().clip = tileMoveFail;
+                GetComponent<AudioSource>().clip = tileMoveFailSound;
             }
 
             GetComponent<AudioSource>().Play();
@@ -168,7 +173,12 @@ public class CommandHandlerScript : MonoBehaviour
         state = State.RECORD;
     }
 
-    private enum State
+    public State GetState()
+    {
+        return state;
+    }
+
+    public enum State
     {
         SHUFFLE, RECORD, REPLAY
     }

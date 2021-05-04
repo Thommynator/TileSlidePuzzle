@@ -1329,7 +1329,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 800942192}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 924b740421566a44d8adbbd6a8b550ff, type: 3}
@@ -2342,7 +2342,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f004db53c560d7e429f30877333b439b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  commands: []
+  shuffleAmount: 5
   commandLimit: 3
   upCommand: {fileID: 8520600153423920008, guid: 121d7cc6dfd117c4fb92fecfbfaa7910,
     type: 3}
@@ -2354,8 +2354,10 @@ MonoBehaviour:
     type: 3}
   recordText: {fileID: 507641133}
   replayText: {fileID: 2044508058}
-  tileMoveSuccess: {fileID: 8300000, guid: cc01ae21a145a1145835317f1d6f2905, type: 3}
-  tileMoveFail: {fileID: 8300000, guid: 768c68d16b6646a4da727fdb3c0c27d4, type: 3}
+  tileMoveSuccessSound: {fileID: 8300000, guid: cc01ae21a145a1145835317f1d6f2905,
+    type: 3}
+  tileMoveFailSound: {fileID: 8300000, guid: 768c68d16b6646a4da727fdb3c0c27d4, type: 3}
+  commandAddSound: {fileID: 8300000, guid: 7ea09f4755e748e488cf95fc2e17c1c4, type: 3}
 --- !u!82 &1690783679
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3195,8 +3197,8 @@ Camera:
   m_GameObject: {fileID: 2119885814}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 1, g: 0.9568628, b: 0.9294118, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

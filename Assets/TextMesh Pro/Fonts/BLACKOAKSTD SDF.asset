@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
   m_Name: BLACKOAKSTD SDF
   m_EditorClassIdentifier: 
-  hashCode: 0
+  hashCode: -1155657008
   material: {fileID: 6520953590726063515}
-  materialHashCode: 0
+  materialHashCode: 36584688
   m_Version: 1.1.0
   m_SourceFontFileGUID: fddf1ba715cc9ea4bac4339a56fee03c
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: fddf1ba715cc9ea4bac4339a56fee03c,
@@ -2620,9 +2620,9 @@ Material:
     - _OutlineWidth: 0
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 10
-    - _ScaleRatioA: 1
-    - _ScaleRatioB: 1
-    - _ScaleRatioC: 1
+    - _ScaleRatioA: 0.8333333
+    - _ScaleRatioB: 0.6770833
+    - _ScaleRatioC: 0.6770833
     - _ScaleX: 1
     - _ScaleY: 1
     - _ShaderFlags: 0

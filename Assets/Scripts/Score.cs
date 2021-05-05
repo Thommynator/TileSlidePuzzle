@@ -19,5 +19,8 @@ public class Score : MonoBehaviour
     public void IncreaseScore()
     {
         score++;
+        Debug.Log(scoreText.transform.localPosition.y + 10);
+        LeanTween.moveLocalY(scoreText, scoreText.transform.localPosition.y + 5, 0.15f).setLoopPingPong(1);
+        LeanTween.scale(scoreText, Vector3.one * 1.2f, 0.15f).setLoopPingPong(1);
     }
 }

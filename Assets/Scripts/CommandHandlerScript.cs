@@ -15,7 +15,7 @@ public class CommandHandlerScript : MonoBehaviour
     public AudioClip tileMoveSuccessSound;
     public AudioClip tileMoveFailSound;
     public AudioClip commandAddSound;
-
+    private Score score;
     private List<GameObject> commands;
     private State state;
 
@@ -23,6 +23,7 @@ public class CommandHandlerScript : MonoBehaviour
     {
         commands = new List<GameObject>();
         StartCoroutine(Shuffle(shuffleAmount));
+        score = GetComponent<Score>();
     }
 
     void Update()
@@ -177,6 +178,7 @@ public class CommandHandlerScript : MonoBehaviour
                 GetComponent<AudioSource>().clip = tileMoveFailSound;
             }
 
+            score.IncreaseScore();
             GetComponent<AudioSource>().Play();
             LeanTween.scale(nextCommand, Vector3.zero, 0.25f).setDestroyOnComplete(true);
             commands.RemoveAt(0);

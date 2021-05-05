@@ -7,10 +7,11 @@ public class Help : MonoBehaviour
     private static bool isOpen = false;
 
 
-    public void ShowHelp()
+    public void ToggleHelp()
     {
         if (isOpen)
         {
+            HideHelp();
             return;
         }
 

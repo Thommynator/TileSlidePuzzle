@@ -135,13 +135,25 @@ public class CommandHandlerScript : MonoBehaviour
         switch (randomNumber)
         {
             case 0:
-                return Instantiate<GameObject>(upCommand).GetComponent<Command>();
+                GameObject tempCommandObject = Instantiate<GameObject>(upCommand);
+                Command command = tempCommandObject.GetComponent<Command>();
+                Destroy(tempCommandObject);
+                return command;
             case 1:
-                return Instantiate<GameObject>(rightCommand).GetComponent<Command>();
+                tempCommandObject = Instantiate<GameObject>(downCommand);
+                command = tempCommandObject.GetComponent<Command>();
+                Destroy(tempCommandObject);
+                return command;
             case 2:
-                return Instantiate<GameObject>(downCommand).GetComponent<Command>();
+                tempCommandObject = Instantiate<GameObject>(leftCommand);
+                command = tempCommandObject.GetComponent<Command>();
+                Destroy(tempCommandObject);
+                return command;
             default:
-                return Instantiate<GameObject>(leftCommand).GetComponent<Command>();
+                tempCommandObject = Instantiate<GameObject>(rightCommand);
+                command = tempCommandObject.GetComponent<Command>();
+                Destroy(tempCommandObject);
+                return command;
         }
     }
 

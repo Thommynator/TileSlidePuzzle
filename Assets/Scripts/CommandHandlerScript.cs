@@ -18,12 +18,16 @@ public class CommandHandlerScript : MonoBehaviour
     private Score score;
     private List<GameObject> commands;
     private State state;
+    private Vector2 touchPosition;
+
+    private SwipeDirection swipeDirection;
 
     void Start()
     {
         commands = new List<GameObject>();
         StartCoroutine(Shuffle(shuffleAmount));
         score = GetComponent<Score>();
+        swipeDirection = new SwipeDirection();
     }
 
     void Update()
@@ -46,19 +50,20 @@ public class CommandHandlerScript : MonoBehaviour
 
     private void ListenForInput()
     {
-        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+        swipeDirection.ListenForSwipe();
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A) || swipeDirection.IsLeftSwipe())
         {
             AddCommandToQueue(Instantiate<GameObject>(leftCommand));
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+        else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D) || swipeDirection.IsRightSwipe())
         {
             AddCommandToQueue(Instantiate<GameObject>(rightCommand));
         }
-        else if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+        else if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) || swipeDirection.IsUpSwipe())
         {
             AddCommandToQueue(Instantiate<GameObject>(upCommand));
         }
-        else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+        else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S) || swipeDirection.IsDownSwipe())
         {
             AddCommandToQueue(Instantiate<GameObject>(downCommand));
         }

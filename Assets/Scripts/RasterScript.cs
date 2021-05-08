@@ -85,7 +85,6 @@ public class RasterScript : MonoBehaviour
         }
         catch (System.Exception)
         {
-            Debug.Log("Could not move tile!");
             return false;
         }
         return true;

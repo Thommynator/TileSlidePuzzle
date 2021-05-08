@@ -41,9 +41,19 @@ public class SwipeDirection
         return Mathf.Atan2(normalizedDirection.y, normalizedDirection.x) * Mathf.Rad2Deg;
     }
 
+    private bool IsShortSwipe()
+    {
+        if (isAvailable)
+        {
+            Vector2 difference = swipeStopPosition - swipeStartPosition;
+            return difference.magnitude < Screen.width * 0.1f;
+        }
+        return false;
+    }
+
     public bool IsUpSwipe()
     {
-        if (!isAvailable)
+        if (!isAvailable || IsShortSwipe())
         {
             return false;
         }
@@ -53,7 +63,7 @@ public class SwipeDirection
 
     public bool IsRightSwipe()
     {
-        if (!isAvailable)
+        if (!isAvailable || IsShortSwipe())
         {
             return false;
         }
@@ -63,7 +73,7 @@ public class SwipeDirection
 
     public bool IsDownSwipe()
     {
-        if (!isAvailable)
+        if (!isAvailable || IsShortSwipe())
         {
             return false;
         }
@@ -73,7 +83,7 @@ public class SwipeDirection
 
     public bool IsLeftSwipe()
     {
-        if (!isAvailable)
+        if (!isAvailable || IsShortSwipe())
         {
             return false;
         }
